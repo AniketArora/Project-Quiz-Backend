@@ -1425,29 +1425,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "Project.API/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "compile": {
-          "bin/placeholder/Project.API.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Project.API.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
-      "Project.Models/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/Project.Models.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Project.Models.dll": {}
-        }
       }
     }
   },
@@ -5407,16 +5384,6 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
-    },
-    "Project.API/1.0.0": {
-      "type": "project",
-      "path": "../Project.API/Project.API.csproj",
-      "msbuildProject": "../Project.API/Project.API.csproj"
-    },
-    "Project.Models/1.0.0": {
-      "type": "project",
-      "path": "../Project.Models/Project.Models.csproj",
-      "msbuildProject": "../Project.Models/Project.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5426,9 +5393,7 @@
       "Microsoft.AspNetCore.Identity.UI >= 3.1.1",
       "Microsoft.EntityFrameworkCore >= 3.1.2",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.2",
-      "Microsoft.EntityFrameworkCore.Tools >= 3.1.1",
-      "Project.API >= 1.0.0",
-      "Project.Models >= 1.0.0"
+      "Microsoft.EntityFrameworkCore.Tools >= 3.1.1"
     ]
   },
   "packageFolders": {
@@ -5461,14 +5426,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {
-            "D:\\Backend Development\\Project\\Project.API\\Project.API.csproj": {
-              "projectPath": "D:\\Backend Development\\Project\\Project.API\\Project.API.csproj"
-            },
-            "D:\\Backend Development\\Project\\Project.Models\\Project.Models.csproj": {
-              "projectPath": "D:\\Backend Development\\Project\\Project.Models\\Project.Models.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
