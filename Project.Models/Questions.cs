@@ -11,5 +11,7 @@ namespace Project.Models {
         // NavigationProperties
 
         public QuizQuestion QuizQuestion { get; set; }
+
+        public QuizAwnsers quizAwnsers { get; set; }
     }
 }

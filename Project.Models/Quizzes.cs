@@ -21,5 +21,7 @@ namespace Project.Models {
         // NavigationProperties
 
         public QuizSubject Subject { get; set; }
+
+        public QuizAwnsers QuizAwnsers { get; set; }
     }
 }
