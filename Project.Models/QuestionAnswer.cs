@@ -4,8 +4,6 @@ using System.Text;
 
 namespace Project.Models {
     public class QuestionAnswer {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public Guid QuestionId { get; set; }
 
         public Guid AnswerId { get; set; }
@@ -16,6 +14,8 @@ namespace Project.Models {
         public Questions Questions { get; set; }
 
         public Answers Answers { get; set; }
+
+        public ICollection<QuizAwnsers> QuizAwnsers { get; set; }
 
     }
 }

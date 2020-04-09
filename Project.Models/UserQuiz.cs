@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Project.Models {
     public class UserQuiz {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public Guid QuizId { get; set; }
 
@@ -14,7 +15,7 @@ namespace Project.Models {
 
         //NavigationProperties
 
-        public Users Users { get; set; }
+        public IdentityUser Users { get; set; }
 
         public Quizzes Quizzes { get; set; }
     }

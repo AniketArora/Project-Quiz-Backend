@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Project.Models {
     public class Quizzes {
-        public Guid QuizId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public String QuizName { get; set; }
 
@@ -20,8 +20,10 @@ namespace Project.Models {
 
         // NavigationProperties
 
-        public QuizSubject Subject { get; set; }
+        public ICollection<QuizSubject> Subject { get; set; }
 
-        public QuizAwnsers QuizAwnsers { get; set; }
+        public ICollection<QuizAwnsers> QuizAwnsers { get; set; }
+
+        public ICollection<UserQuiz> UserQuizzes { get; set; }
     }
 }

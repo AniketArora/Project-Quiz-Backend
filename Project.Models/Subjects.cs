@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Project.Models {
     public class Subjects {
-        public Guid SubjectId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } 
 
         public String SubjectName { get; set; }
 
         public String Description { get; set; }
 
         // NavigationProperties
-        public QuizSubject QuizSubject { get; set; }
+        public ICollection<QuizSubject> QuizSubject { get; set; }
     }
 }

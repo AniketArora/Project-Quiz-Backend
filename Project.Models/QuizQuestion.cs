@@ -4,7 +4,6 @@ using System.Text;
 
 namespace Project.Models {
     public class QuizQuestion {
-        public Guid Id { get; set; } = Guid.NewGuid();
 
         public Guid QuizId { get; set; }
 
