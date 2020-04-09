@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Project.Data;
+using Project.Models.Data;
 
-namespace Project.Data.Migrations
+namespace Project.Models.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200409192634_Models")]
+    partial class Models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -219,6 +221,217 @@ namespace Project.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Project.Models.Answers", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Explination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Answers");
+                });
+
+            modelBuilder.Entity("Project.Models.QuestionAnswer", b =>
+                {
+                    b.Property<Guid>("AnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AnswersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("QuestionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AnswerId", "QuestionId");
+
+                    b.HasIndex("AnswersId");
+
+                    b.HasIndex("QuestionsId");
+
+                    b.ToTable("QuestionAnswers");
+                });
+
+            modelBuilder.Entity("Project.Models.Questions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("Project.Models.QuizAwnsers", b =>
+                {
+                    b.Property<Guid>("QuestionAnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserQuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AnswersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuestionAnswerAnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuestionAnswerQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuestionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuizzesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("QuestionAnswerId", "UserQuizId");
+
+                    b.HasIndex("AnswersId");
+
+                    b.HasIndex("QuestionsId");
+
+                    b.HasIndex("QuizzesId");
+
+                    b.HasIndex("UserQuizId");
+
+                    b.HasIndex("QuestionAnswerAnswerId", "QuestionAnswerQuestionId");
+
+                    b.ToTable("QuizAwnsers");
+                });
+
+            modelBuilder.Entity("Project.Models.QuizQuestion", b =>
+                {
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuestionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuizzesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("QuestionId", "QuizId");
+
+                    b.HasIndex("QuestionsId");
+
+                    b.HasIndex("QuizzesId");
+
+                    b.ToTable("QuizQuestions");
+                });
+
+            modelBuilder.Entity("Project.Models.QuizSubject", b =>
+                {
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuizzesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SubjectsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("QuizId", "SubjectId");
+
+                    b.HasIndex("QuizzesId");
+
+                    b.HasIndex("SubjectsId");
+
+                    b.ToTable("QuizSubjects");
+                });
+
+            modelBuilder.Entity("Project.Models.Quizzes", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuizName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThemeColor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Quizzes");
+                });
+
+            modelBuilder.Entity("Project.Models.Subjects", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubjectName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("Project.Models.UserQuiz", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("QuizzesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizzesId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("UserQuizzes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -268,6 +481,75 @@ namespace Project.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Project.Models.QuestionAnswer", b =>
+                {
+                    b.HasOne("Project.Models.Answers", "Answers")
+                        .WithMany("QuestionAnswer")
+                        .HasForeignKey("AnswersId");
+
+                    b.HasOne("Project.Models.Questions", "Questions")
+                        .WithMany()
+                        .HasForeignKey("QuestionsId");
+                });
+
+            modelBuilder.Entity("Project.Models.QuizAwnsers", b =>
+                {
+                    b.HasOne("Project.Models.Answers", null)
+                        .WithMany("QuizAwnsers")
+                        .HasForeignKey("AnswersId");
+
+                    b.HasOne("Project.Models.Questions", null)
+                        .WithMany("QuizAwnsers")
+                        .HasForeignKey("QuestionsId");
+
+                    b.HasOne("Project.Models.Quizzes", null)
+                        .WithMany("QuizAwnsers")
+                        .HasForeignKey("QuizzesId");
+
+                    b.HasOne("Project.Models.UserQuiz", "UserQuiz")
+                        .WithMany()
+                        .HasForeignKey("UserQuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project.Models.QuestionAnswer", "QuestionAnswer")
+                        .WithMany("QuizAwnsers")
+                        .HasForeignKey("QuestionAnswerAnswerId", "QuestionAnswerQuestionId");
+                });
+
+            modelBuilder.Entity("Project.Models.QuizQuestion", b =>
+                {
+                    b.HasOne("Project.Models.Questions", "Questions")
+                        .WithMany("QuizQuestion")
+                        .HasForeignKey("QuestionsId");
+
+                    b.HasOne("Project.Models.Quizzes", "Quizzes")
+                        .WithMany()
+                        .HasForeignKey("QuizzesId");
+                });
+
+            modelBuilder.Entity("Project.Models.QuizSubject", b =>
+                {
+                    b.HasOne("Project.Models.Quizzes", "Quizzes")
+                        .WithMany("Subject")
+                        .HasForeignKey("QuizzesId");
+
+                    b.HasOne("Project.Models.Subjects", "Subjects")
+                        .WithMany("QuizSubject")
+                        .HasForeignKey("SubjectsId");
+                });
+
+            modelBuilder.Entity("Project.Models.UserQuiz", b =>
+                {
+                    b.HasOne("Project.Models.Quizzes", "Quizzes")
+                        .WithMany("UserQuizzes")
+                        .HasForeignKey("QuizzesId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Users")
+                        .WithMany()
+                        .HasForeignKey("UsersId");
                 });
 #pragma warning restore 612, 618
         }

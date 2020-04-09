@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 
-namespace Project.Data {
+namespace Project.Models.Data {
     public class ProjectDbContext : IdentityDbContext<IdentityUser> {
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
             : base(options) {
@@ -34,6 +34,8 @@ namespace Project.Data {
 
         //FLUENT API
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
+            base.OnModelCreating(modelBuilder);
             //composite key 
             modelBuilder.Entity<QuizAwnsers>(entity => {
                 entity.HasKey(e => new { e.QuestionAnswerId, e.UserQuizId });
@@ -45,6 +47,10 @@ namespace Project.Data {
 
             modelBuilder.Entity<QuizQuestion>(entity => {
                 entity.HasKey(e => new { e.QuestionId, e.QuizId });
+            });
+
+            modelBuilder.Entity<QuizSubject>(entity => {
+                entity.HasKey(e => new { e.QuizId, e.SubjectId });
             });
         } 
  
