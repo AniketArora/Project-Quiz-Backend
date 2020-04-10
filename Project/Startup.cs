@@ -28,7 +28,8 @@ namespace Project {
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ProjectDbContext>();
 
             services.AddControllersWithViews();
@@ -47,7 +48,7 @@ namespace Project {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<IdentityRole> roleMgr, UserManager<IdentityUser> userMgr, ProjectDbContext context) {
             if (env.IsDevelopment()) {
 
                 app.UseDeveloperExceptionPage();
@@ -74,6 +75,11 @@ namespace Project {
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            // Seeders for Roles, Users & Data
+            ProjectDBContextExtensions.SeedRoles(roleMgr).Wait();
+            ProjectDBContextExtensions.SeedUsers(userMgr).Wait();
+            ProjectDBContextExtensions.SeedData(context).Wait();
         }
     }
 }
