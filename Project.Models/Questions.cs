@@ -4,18 +4,16 @@ using System.Text;
 
 namespace Project.Models {
     public class Questions {
-        public Guid QuestionId { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public String Question { get; set; }
 
-        public Guid SubjectId { get; set; }
-
-        public bool Correct { get; set; }
-
+        public int Score { get; set; }
 
         // NavigationProperties
-        public virtual ICollection<UserQuestions> UserQuestions { get; set; }
 
-        public virtual Subject Subject { get; set; }
+        public ICollection<QuizQuestion> QuizQuestion { get; set; }
+
+        public ICollection<QuizAwnsers> QuizAwnsers { get; set; }
     }
 }
