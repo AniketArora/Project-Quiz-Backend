@@ -20,7 +20,7 @@ namespace Project.Models {
 
         // NavigationProperties
 
-        public ICollection<QuizSubject> Subjects { get; set; }
+        public ICollection<QuizSubject> QuizSubjects { get; set; }
 
         public ICollection<UserQuiz> UserQuizzes { get; set; }
     }
