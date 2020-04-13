@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Project.Models {
-    public class Quizzes {
-        public Guid Id { get; set; } = Guid.NewGuid();
+    public class Quiz {
+        public Guid Id { get; set; }
 
         public String QuizName { get; set; }
 
@@ -20,9 +20,7 @@ namespace Project.Models {
 
         // NavigationProperties
 
-        public ICollection<QuizSubject> Subject { get; set; }
-
-        public ICollection<QuizAwnsers> QuizAwnsers { get; set; }
+        public ICollection<QuizSubject> Subjects { get; set; }
 
         public ICollection<UserQuiz> UserQuizzes { get; set; }
     }
