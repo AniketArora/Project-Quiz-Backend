@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Project.Models {
-    public class Quiz {
+namespace Project.API.Resources {
+    public class QuizSaveResource {
         public Guid Id { get; set; }
 
+        [Required]
         public String QuizName { get; set; }
 
         public enum DifficultyLevel {
@@ -21,14 +23,7 @@ namespace Project.Models {
 
         // NavigationProperties
 
-        public ICollection<QuizSubject> QuizSubjects { get; set; }
+        public ICollection<Guid> QuizSubjectsId { get; set; }
 
-        public ICollection<UserQuiz> UserQuizzes { get; set; }
-
-        public Quiz() {
-            QuizSubjects = new Collection<QuizSubject>();
-            UserQuizzes = new Collection<UserQuiz>();
-
-        }
     }
 }

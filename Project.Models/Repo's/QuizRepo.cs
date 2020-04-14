@@ -8,18 +8,22 @@ using System.Threading.Tasks;
 
 namespace Project.Models.Repo_s {
     public class QuizRepo : GenericRepo<Quiz>, IQuizRepo {
-        private readonly ProjectDbContext context;
+        private readonly ProjectDbContext _context;
 
         public QuizRepo(ProjectDbContext context) : base(context) {
-            this.context = context;
+            this._context = context;
+        }
+
+        public override async Task<IEnumerable<Quiz>> GetAllAsync() {
+            return await _context.Quiz.Include(q => q.QuizSubjects).ThenInclude(q => q.Subject).ToListAsync();
         }
 
         public async Task<IEnumerable<Quiz>> GetQuizByDifficulityAsync(Quiz.DifficultyLevel level) {
-            return await context.Quiz.Where(e => e.Difficulty == level).ToListAsync();
+            return await _context.Quiz.Where(e => e.Difficulty == level).ToListAsync();
         }
 
         public async Task<IEnumerable<Quiz>> GetQuizbySubjectAsync(string subject) {
-            return await context.Quiz
+            return await _context.Quiz
                 .Include(e => e.QuizSubjects)
                 .ThenInclude(e => e.Subject)
                 .Where(e => e.QuizSubjects.Any(qs => qs.Subject.SubjectName == subject)).ToListAsync();
