@@ -37,6 +37,10 @@ namespace Project.Models.Repo_s {
         public virtual async Task<TEntity> GetAsync(Guid id) {
             return await _context.Set<TEntity>().FindAsync(id);
         }
+        
+        public virtual async Task<TEntity> GetAsync<TPkType>(TPkType id) {
+            return await _context.Set<TEntity>().FindAsync(id);
+        }
 
 
         public void Delete(TEntity entity) {

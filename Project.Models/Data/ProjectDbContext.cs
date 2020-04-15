@@ -8,8 +8,8 @@ using Project.Models;
 
 namespace Project.Models.Data {
     public class ProjectDbContext : IdentityDbContext<IdentityUser> {
-        public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
-            : base(options) {
+        public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options) {
+
         }
         
         public virtual DbSet<Answer> Answer { get; set; }

@@ -14,7 +14,7 @@ namespace Project.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionController : GenericController<Question, QuestionResource, QuestionSaveResource> {
+    public class QuestionController : GenericController<Question, QuestionResource, QuestionSaveResource, Guid> {
         public QuestionController(IQuestionRepo repo, IMapper mapper, ILogger<QuestionController> logger) : base(repo, mapper, logger) {
 
         }

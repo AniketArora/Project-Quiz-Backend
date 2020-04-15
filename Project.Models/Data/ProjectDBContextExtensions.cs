@@ -15,6 +15,12 @@ namespace Project.Models.Data {
             new Subject { SubjectName = "Hardware", Description="Want to test your knowledge about Hardware? Go and take on this quiz"},
         };
 
+        private static List<Question> _question = new List<Question> {
+            new Question { Questiontext = "Wat is de hoofdstad van België", Score=1},
+            new Question { Questiontext = "Wat is de hoofdstad van Duitsland", Score=1},
+            new Question { Questiontext = "Wat is de hoofdstad van West-Vlaanderen", Score=1},
+        };
+
         public async static Task SeedRoles(RoleManager<IdentityRole> RoleMgr) {
             IdentityResult roleResult;
             string[] roleNames = { "Admin", "User" };
@@ -73,6 +79,16 @@ namespace Project.Models.Data {
                 foreach (Subject e in _subject) {
                     if (!context.Subject.Any(s => s.Id == e.Id))
                         await context.Subject.AddAsync(e);
+                }
+                await context.SaveChangesAsync();
+            }
+
+            //1. Questions aanvullen met hardcoded data -----------------------------------
+            if (!context.Question.Any()) {
+                Debug.WriteLine("Seeding Questions");
+                foreach (Question e in _question) {
+                    if (!context.Question.Any(s => s.Id == e.Id))
+                        await context.Question.AddAsync(e);
                 }
                 await context.SaveChangesAsync();
             }

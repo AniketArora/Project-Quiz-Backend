@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,21 +12,23 @@ using Project.Models.Repo_s;
 namespace Project.API.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenericController<TEntity, TEntityResource, TEntitySaveResources> : ControllerBase
+    public class GenericController<TEntity, TEntityResource, TEntitySaveResources,TPkType> : ControllerBase
         where TEntity : class
         where TEntityResource : class
-        where TEntitySaveResources : class {
+        where TEntitySaveResources : class
+        where TPkType : notnull
+        {
 
         private IGenericRepo<TEntity> _repo;
         private readonly IMapper _mapper;
-        private readonly ILogger<GenericController<TEntity, TEntityResource, TEntitySaveResources>> _logger;
+        private readonly ILogger<GenericController<TEntity, TEntityResource, TEntitySaveResources,TPkType>> _logger;
 
-        public GenericController(IGenericRepo<TEntity> repo, IMapper mapper, ILogger<GenericController<TEntity, TEntityResource, TEntitySaveResources>> logger) {
+        public GenericController(IGenericRepo<TEntity> repo, IMapper mapper, ILogger<GenericController<TEntity, TEntityResource, TEntitySaveResources,TPkType>> logger) {
             _repo = repo;
             _mapper = mapper;
             _logger = logger;
+            
         }
-
 
         [HttpPost]
         public virtual async Task<IActionResult> Post(TEntitySaveResources saveResource) {
@@ -67,7 +70,7 @@ namespace Project.API.Controllers {
         }
 
         [HttpGet("{id}")]
-        public virtual async Task<IActionResult> Get(Guid id) {
+        public virtual async Task<IActionResult> Get(TPkType id) {
 
             try {
                 var obj = await _repo.GetAsync(id);
@@ -89,7 +92,7 @@ namespace Project.API.Controllers {
         }
 
         [HttpPut("{id}")]
-        public virtual async Task<IActionResult> Update(Guid id, TEntitySaveResources SaveResoure) {
+        public virtual async Task<IActionResult> Update(TPkType id, TEntitySaveResources SaveResoure) {
 
             try {
 

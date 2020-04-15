@@ -38,7 +38,7 @@ namespace Project.API {
 
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1.0", new OpenApiInfo {
-                    Title = "ToDo_API",
+                    Title = "Quiz_Api",
                     Version = "v1.0"
                 });
             });
@@ -56,14 +56,14 @@ namespace Project.API {
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => {
-                endpoints.MapControllers();
-            });
-
             app.UseSwagger(); //enable swagger
             app.UseSwaggerUI(c => {
                 c.RoutePrefix = "swagger"; //path naar de UI pagina: /swagger/index.html
-                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "ToDo_API v1.0");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "Quiz_Api v1.0");
+            });
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
             });
         }
     }
