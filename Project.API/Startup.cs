@@ -1,17 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Project.Models.Data;
 using Project.Models.Repo_s;
@@ -36,6 +41,28 @@ namespace Project.API {
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
+         
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+              .AddRoles<IdentityRole>()
+              .AddEntityFrameworkStores<ProjectDbContext>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters() {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+
+                        IssuerSigningKey = new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                    };
+                    options.SaveToken = false;
+                    options.RequireHttpsMetadata = false;
+                });
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1.0", new OpenApiInfo {
                     Title = "Quiz_Api",
@@ -55,6 +82,7 @@ namespace Project.API {
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseSwagger(); //enable swagger
             app.UseSwaggerUI(c => {

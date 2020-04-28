@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project.Models.Repo_s {
-    public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class {
+    public class GenericRepo<TEntity> : IGenericRepo<TEntity> 
+        where TEntity : class {
         private readonly ProjectDbContext _context;
 
         public GenericRepo(ProjectDbContext context) {

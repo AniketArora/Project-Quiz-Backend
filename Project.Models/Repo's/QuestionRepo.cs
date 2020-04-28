@@ -11,9 +11,5 @@ namespace Project.Models.Repo_s {
         public QuestionRepo(ProjectDbContext context) : base(context) {
             this._context = context;
         }
-
-        public override async Task<IEnumerable<Question>> GetAllAsync() {
-            return await _context.Question.ToListAsync();
-        }
     }
 }

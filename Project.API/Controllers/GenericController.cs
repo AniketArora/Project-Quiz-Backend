@@ -12,7 +12,7 @@ using Project.Models.Repo_s;
 namespace Project.API.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenericController<TEntity, TEntityResource, TEntitySaveResources,TPkType> : ControllerBase
+    public class GenericController<TEntity, TEntityResource, TEntitySaveResources, TPkType> : ControllerBase
         where TEntity : class
         where TEntityResource : class
         where TEntitySaveResources : class
