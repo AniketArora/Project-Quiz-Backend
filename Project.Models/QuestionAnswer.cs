@@ -11,11 +11,9 @@ namespace Project.Models {
         public bool IsCorrect { get; set; }
 
         //NavigationProperties
-        public Questions Questions { get; set; }
+        public Question Question { get; set; }
 
-        public Answers Answers { get; set; }
-
-        public ICollection<QuizAwnsers> QuizAwnsers { get; set; }
+        public Answer Answer { get; set; }
 
     }
 }

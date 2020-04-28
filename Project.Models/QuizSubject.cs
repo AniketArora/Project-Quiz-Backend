@@ -11,8 +11,8 @@ namespace Project.Models {
         public Guid SubjectId { get; set; }
 
         // NavigationProperties
-        public Subjects Subjects { get; set; }
+        public Subject Subject { get; set; }
 
-        public Quizzes Quizzes { get; set; }
+        public Quiz Quiz { get; set; }
     }
 }

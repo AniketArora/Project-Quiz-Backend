@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Project.Models {
-    public class Subjects {
+    public class Subject {
         public Guid Id { get; set; } 
 
         public String SubjectName { get; set; }
@@ -11,6 +11,6 @@ namespace Project.Models {
         public String Description { get; set; }
 
         // NavigationProperties
-        public ICollection<QuizSubject> QuizSubject { get; set; }
+        public ICollection<QuizSubject> QuizSubjects { get; set; }
     }
 }

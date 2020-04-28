@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Project.Models {
-    public class QuizAwnsers {
+    public class QuizAnswer {
 
-        public Guid QuestionAnswerId { get; set; }
+        public Guid AnswerId { get; set; }
+
+        public Guid QuestionId { get; set; }
 
         public Guid UserQuizId { get; set; }
 
         // NavigationProperties
-      
 
-        public QuestionAnswer QuestionAnswer { get; set; }
+        public Answer Answer { get; set; }
+
+        public Question Question { get; set; }
 
         public UserQuiz UserQuiz { get; set; }
     }

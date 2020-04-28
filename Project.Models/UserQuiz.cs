@@ -15,8 +15,10 @@ namespace Project.Models {
 
         //NavigationProperties
 
-        public IdentityUser Users { get; set; }
+        public IdentityUser User { get; set; }
 
-        public Quizzes Quizzes { get; set; }
+        public Quiz Quiz { get; set; }
+
+        public ICollection<QuizAnswer> QuizAnswers { get; set; }
     }
 }

@@ -9,10 +9,16 @@ using System.Threading.Tasks;
 namespace Project.Models.Data {
     public static class ProjectDBContextExtensions {
 
-        private static List<Subjects> _subjects = new List<Subjects> {
-            new Subjects { SubjectName = "Dutch", Description="Deze Quiz is in het Nederlands"},
-            new Subjects { SubjectName = "English", Description="This Quiz is in English"},
-            new Subjects { SubjectName = "Hardware", Description="Want to test your knowledge about Hardware? Go and take on this quiz"},
+        private static List<Subject> _subject = new List<Subject> {
+            new Subject { SubjectName = "Dutch", Description="Deze Quiz is in het Nederlands"},
+            new Subject { SubjectName = "English", Description="This Quiz is in English"},
+            new Subject { SubjectName = "Hardware", Description="Want to test your knowledge about Hardware? Go and take on this quiz"},
+        };
+
+        private static List<Question> _question = new List<Question> {
+            new Question { Questiontext = "Wat is de hoofdstad van België", Score=1},
+            new Question { Questiontext = "Wat is de hoofdstad van Duitsland", Score=1},
+            new Question { Questiontext = "Wat is de hoofdstad van West-Vlaanderen", Score=1},
         };
 
         public async static Task SeedRoles(RoleManager<IdentityRole> RoleMgr) {
@@ -68,11 +74,21 @@ namespace Project.Models.Data {
         public async static Task SeedData(this ProjectDbContext context) {
 
             //1. Subjects aanvullen met hardcoded data -----------------------------------
-            if (!context.Subjects.Any()) {
+            if (!context.Subject.Any()) {
                 Debug.WriteLine("Seeding Subjects");
-                foreach (Subjects e in _subjects) {
-                    if (!context.Subjects.Any(s => s.Id == e.Id))
-                        await context.Subjects.AddAsync(e);
+                foreach (Subject e in _subject) {
+                    if (!context.Subject.Any(s => s.Id == e.Id))
+                        await context.Subject.AddAsync(e);
+                }
+                await context.SaveChangesAsync();
+            }
+
+            //1. Questions aanvullen met hardcoded data -----------------------------------
+            if (!context.Question.Any()) {
+                Debug.WriteLine("Seeding Questions");
+                foreach (Question e in _question) {
+                    if (!context.Question.Any(s => s.Id == e.Id))
+                        await context.Question.AddAsync(e);
                 }
                 await context.SaveChangesAsync();
             }

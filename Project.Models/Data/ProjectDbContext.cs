@@ -8,38 +8,30 @@ using Project.Models;
 
 namespace Project.Models.Data {
     public class ProjectDbContext : IdentityDbContext<IdentityUser> {
-        public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
-            : base(options) {
+        public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options) {
+
         }
         
-        public virtual DbSet<Answers> Answers { get; set; }
-
-        public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-
-        public virtual DbSet<Questions> Questions { get; set; }
-
-        public virtual DbSet<QuizAwnsers> QuizAwnsers { get; set; }
-
-        public virtual DbSet<QuizQuestion> QuizQuestions { get; set; }
-
-        public virtual DbSet<QuizSubject> QuizSubjects { get; set; }
-
-        public virtual DbSet<Quizzes> Quizzes { get; set; }
-
-        public virtual DbSet<Subjects> Subjects { get; set; }
-
-        public virtual DbSet<UserQuiz> UserQuizzes { get; set; }
-
-        //public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Answer> Answer { get; set; }
+        public virtual DbSet<Question> Question { get; set; }
+        public virtual DbSet<Quiz> Quiz { get; set; }
+        public virtual DbSet<Subject> Subject { get; set; }
+        public virtual DbSet<QuestionAnswer> QuestionAnswer { get; set; }
+        public virtual DbSet<QuizQuestion> QuizQuestion { get; set; }
+        public virtual DbSet<QuizSubject> QuizSubject { get; set; }
+        public virtual DbSet<UserQuiz> UserQuiz { get; set; }
+        public virtual DbSet<QuizAnswer> QuizAwnser { get; set; }
 
         //FLUENT API
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             base.OnModelCreating(modelBuilder);
             //composite key 
-            modelBuilder.Entity<QuizAwnsers>(entity => {
-                entity.HasKey(e => new { e.QuestionAnswerId, e.UserQuizId });
+            modelBuilder.Entity<QuizAnswer>(entity => {
+                entity.HasKey(e => new { e.QuestionId, e.UserQuizId, e.AnswerId});
             });
+
+            //modelBuilder.Entity<QuizAnswer>().HasOne(uq => uq.QuestionAnswer).WithMany(p => p.QuizAnswer).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<QuestionAnswer>(entity => {
                 entity.HasKey(e => new { e.AnswerId, e.QuestionId });
