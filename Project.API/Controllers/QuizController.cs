@@ -16,8 +16,36 @@ namespace Project.API.Controllers
     [ApiController]
     public class QuizController : GenericController<Quiz,QuizResource,QuizSaveResource, Guid>
     {
-        public QuizController(IQuizRepo repo,IMapper mapper,ILogger<QuizController> logger):base(repo,mapper,logger) {
+        private readonly IQuizRepo _repo;
+        private readonly IMapper _mapper;
+        private readonly ILogger<QuizController> _logger;
 
+        public QuizController(IQuizRepo repo,IMapper mapper,ILogger<QuizController> logger):base(repo,mapper,logger) {
+            this._repo = repo;
+            this._mapper = mapper;
+            this._logger = logger;
+        }
+
+        [HttpPost]
+        public override async Task<IActionResult> Post(QuizSaveResource saveResource) {
+            try {
+                var entity = _mapper.Map<Quiz>(saveResource);
+
+                _repo.Create(entity);
+                await _repo.SaveChangesAsync();
+
+                entity = await _repo.GetAsync(entity.Id);
+
+                var resoure = _mapper.Map<QuizResource>(entity);
+
+                return CreatedAtAction(nameof(GetAll), resoure);
+
+
+            } catch (Exception ex) {
+
+                _logger.LogError(ex.Message);
+                return BadRequest();
+            }
         }
     }
 }
