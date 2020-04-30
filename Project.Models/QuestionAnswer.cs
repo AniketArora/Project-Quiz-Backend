@@ -9,6 +9,8 @@ namespace Project.Models {
         public Guid AnswerId { get; set; }
 
         public bool IsCorrect { get; set; }
+        public String Explination { get; set; }
+
 
         //NavigationProperties
         public Question Question { get; set; }

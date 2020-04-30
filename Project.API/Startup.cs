@@ -34,6 +34,8 @@ namespace Project.API {
 
             services.AddScoped<IQuizRepo, QuizRepo>();
             services.AddScoped<IQuestionRepo, QuestionRepo>();
+            services.AddScoped<ISubjectRepo, SubjectRepo>();
+            services.AddScoped<IAnswerRepo, AnswerRepo>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
 

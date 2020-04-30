@@ -5,14 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project.API.Resources {
-    public class QuestionSaveResource {
+    public class SubjectSaveResource {
         public Guid Id { get; set; }
 
         [Required]
-        public String Questiontext { get; set; }
+        public String SubjectName { get; set; }
 
-        public int Score { get; set; }
-
-        public ICollection<Guid> AnswerIds { get; set; }
+        public String Description { get; set; }
     }
 }
