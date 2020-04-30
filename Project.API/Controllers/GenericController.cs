@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project.Models.Repo_s;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace Project.API.Controllers {
     [Route("api/[controller]")]
@@ -31,6 +32,7 @@ namespace Project.API.Controllers {
         }
 
         [HttpPost]
+        [ProducesResponseType(Status201Created)]
         public virtual async Task<IActionResult> Post(TEntitySaveResources saveResource) {
 
             try {
@@ -38,6 +40,7 @@ namespace Project.API.Controllers {
 
                 _repo.Create(entity);
                 await _repo.SaveChangesAsync();
+
 
                 var resoure = _mapper.Map<TEntityResource>(entity);
 

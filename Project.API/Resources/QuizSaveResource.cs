@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +22,14 @@ namespace Project.API.Resources {
 
         public String ThemeColor { get; set; }
 
-        // NavigationProperties
 
-        public ICollection<Guid> QuizSubjectsId { get; set; }
+        public ICollection<Guid> SubjectIds { get; set; }
 
+        public ICollection<Guid> QuestionIds { get; set; }
+
+        public QuizSaveResource() {
+            SubjectIds = new Collection<Guid>();
+            QuestionIds = new Collection<Guid>();
+        }
     }
 }

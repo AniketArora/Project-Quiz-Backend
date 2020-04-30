@@ -8,7 +8,6 @@ namespace Project.Models {
 
         public String Answertext { get; set; }
 
-        public String Explination { get; set; }
 
         //NavigationProperties
 

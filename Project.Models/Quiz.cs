@@ -25,9 +25,12 @@ namespace Project.Models {
 
         public ICollection<UserQuiz> UserQuizzes { get; set; }
 
+        public ICollection<QuizQuestion> QuizQuestions { get; set; }
+
         public Quiz() {
             QuizSubjects = new Collection<QuizSubject>();
             UserQuizzes = new Collection<UserQuiz>();
+            QuizQuestions = new Collection<QuizQuestion>();
 
         }
     }
