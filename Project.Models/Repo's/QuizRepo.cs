@@ -17,11 +17,15 @@ namespace Project.Models.Repo_s {
         public override async Task<IEnumerable<Quiz>> GetAllAsync() {
             return await _context.Quiz
                 .Include(q => q.QuizSubjects).ThenInclude(q => q.Subject)
-                .Include(q => q.QuizQuestions).ThenInclude(qq => qq.Question).ThenInclude(q => q.QuizAwnsers).ThenInclude(qa => qa.Answer)
+                .Include(q => q.QuizQuestions).ThenInclude(qq => qq.Question)
+                .ThenInclude(q => q.QuestionAnswers).ThenInclude(qa => qa.Answer)
                 .ToListAsync();
         }
         public override async Task<Quiz> GetAsync(Guid id) {
-            return await _context.Quiz.Include(q => q.QuizSubjects).ThenInclude(q => q.Subject).SingleOrDefaultAsync(q => q.Id == id);
+            return await _context.Quiz
+                .Include(q => q.QuizSubjects).ThenInclude(q => q.Subject)
+                .Include(q => q.QuizQuestions).ThenInclude(qq => qq.Question).ThenInclude(q => q.QuizAwnsers).ThenInclude(qa => qa.Answer)
+                .SingleOrDefaultAsync(q => q.Id == id);
         }
 
         public async Task<IEnumerable<Quiz>> GetQuizByDifficulityAsync(Quiz.DifficultyLevel level) {

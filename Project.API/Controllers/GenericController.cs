@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,8 @@ namespace Project.API.Controllers {
         private IGenericRepo<TEntity> _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<GenericController<TEntity, TEntityResource, TEntitySaveResources,TPkType>> _logger;
+        private const string allRoles = "Admin, User";
+        private const string adminRole = "Admin";
 
         public GenericController(IGenericRepo<TEntity> repo, IMapper mapper, ILogger<GenericController<TEntity, TEntityResource, TEntitySaveResources,TPkType>> logger) {
             _repo = repo;
@@ -32,6 +35,7 @@ namespace Project.API.Controllers {
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(Status201Created)]
         public virtual async Task<IActionResult> Post(TEntitySaveResources saveResource) {
 
@@ -55,6 +59,7 @@ namespace Project.API.Controllers {
 
         }
 
+        [Authorize]
         [HttpGet]
         public virtual async Task<IActionResult> GetAll() {
             try {
@@ -72,6 +77,7 @@ namespace Project.API.Controllers {
 
         }
 
+        [Authorize(Roles = allRoles)]
         [HttpGet("{id}")]
         public virtual async Task<IActionResult> Get(TPkType id) {
 
@@ -94,6 +100,7 @@ namespace Project.API.Controllers {
 
         }
 
+        [Authorize(Roles = adminRole)]
         [HttpPut("{id}")]
         public virtual async Task<IActionResult> Update(TPkType id, TEntitySaveResources SaveResoure) {
 
@@ -120,6 +127,7 @@ namespace Project.API.Controllers {
         }
 
 
+        [Authorize(Roles = adminRole)]
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(Guid id) {
 
