@@ -10,44 +10,43 @@ using Project.Models.Repo_s;
 
 namespace Project.Web.Controllers
 {
-    public class SubjectController : Controller {
+    public class QuizController : Controller
+    {
+        private readonly IQuizRepo quizRepo;
 
-        private readonly ISubjectRepo subjectRepo;
-
-        public SubjectController(ISubjectRepo subjectRepo) {
-            this.subjectRepo = subjectRepo;
+        public QuizController(IQuizRepo quizRepo) {
+            this.quizRepo = quizRepo;
         }
 
-        // GET: Subject
+        // GET: Quiz
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
-        {
-            var allSubjects = await subjectRepo.GetAllAsync();
-            return View(allSubjects);
+        public async Task<IActionResult> Index() {
+            var allQuizzes = await quizRepo.GetAllAsync();
+            return View(allQuizzes);
         }
 
-        // GET: Subject/Details/5
+        // GET: Quiz/Details/5
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Details(Guid id) {
-            var subject = await subjectRepo.GetAsync(id);
-            return View(subject);
+            var quiz = await quizRepo.GetAsync(id);
+            return View(quiz);
         }
 
-        // GET: Subject/Create
+        // GET: Quiz/Create
         [Authorize(Roles = "Admin")]
         public ActionResult Create() {
             return View();
         }
 
-        // POST: Subject/Create
+        // POST: Quiz/Create
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormCollection collection, Subject subject) {
+        public async Task<IActionResult> Create(IFormCollection collection, Quiz quiz) {
             try {
                 if (ModelState.IsValid) {
-                    subjectRepo.Create(subject);
-                    await subjectRepo.SaveChangesAsync();
+                    quizRepo.Create(quiz);
+                    await quizRepo.SaveChangesAsync();
                 }
                 return RedirectToAction(nameof(Index));
             } catch {
@@ -55,19 +54,20 @@ namespace Project.Web.Controllers
             }
         }
 
-        // GET: Subject/Edit/5
+        // GET: Quiz/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(Guid id) {
+        public async Task<ActionResult> Edit(Guid id) {
             try {
-                var subject = await subjectRepo.GetAsync(id);
-                return View(subject);
+                var quiz = await quizRepo.GetAsync(id);
+                return View(quiz);
             } catch {
 
                 return RedirectToAction(nameof(Edit));
             }
+            
         }
 
-        // POST: Subject/Edit/5
+        // POST: Quiz/Edit/5
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,36 +81,29 @@ namespace Project.Web.Controllers
             }
         }
 
-        // GET: Subject/Delete/5
+        // GET: Quiz/Delete/5
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id) {
             return View();
         }
 
-        // POST: Subject/Delete/5
+        // POST: Quiz/Delete/5
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(Guid? id, IFormCollection collection) {
             try {
-                try {
-                    if (ModelState.IsValid) {
-                        if (id == null) {
-                            throw new Exception("Bad Delete Request");
-                        }
-                        var subject = await subjectRepo.GetAsync(id);
-                        subjectRepo.Delete(subject);
-                        await subjectRepo.SaveChangesAsync();
+                if (ModelState.IsValid) {
+                    if (id == null) {
+                        throw new Exception("Bad Delete Request");
                     }
-                    return RedirectToAction(nameof(Index));
-
-                } catch (Exception ex) {
-
-                    return View();
+                    var quiz = await quizRepo.GetAsync(id);
+                    quizRepo.Delete(quiz);
+                    await quizRepo.SaveChangesAsync();
                 }
-
                 return RedirectToAction(nameof(Index));
-            } catch {
+
+            } catch (Exception ex) {
                 return View();
             }
         }
