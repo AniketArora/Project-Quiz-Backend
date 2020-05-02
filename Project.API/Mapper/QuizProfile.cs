@@ -7,11 +7,20 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project.API.Mapper {
-    public class QuizProfile:Profile {
+    public class QuizProfile : Profile {
         public QuizProfile() {
             // domain class --> resource
             CreateMap<Quiz, QuizResource>()
-                .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.QuizSubjects.Select(s => s.Subject.SubjectName)));
+                .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.QuizSubjects.Select(s => s.Subject.SubjectName)))
+                .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.QuizQuestions.Select(s => new QuestionResource {
+                    Id = s.QuestionId,
+                    Score = s.Question.Score,
+                    Questiontext = s.Question.Questiontext,
+                    Answers = s.Question.QuestionAnswers.Select(s => new AnswerResource {
+                        Id = s.AnswerId,
+                        Answertext = s.Answer.Answertext
+                    })
+                })));
 
             // resource =-> domain class
             CreateMap<QuizSaveResource, Quiz>()

@@ -17,7 +17,7 @@ namespace Project.Models {
 
         public ICollection<QuizAnswer> QuizAwnsers { get; set; }
 
-        public IEnumerable<QuestionAnswer> QuestionAnswers { get; set; }
+        public ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 
         public Question() {
             QuizQuestions = new Collection<QuizQuestion>();

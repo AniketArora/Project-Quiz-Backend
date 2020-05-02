@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +15,10 @@ namespace Project.API.Resources {
 
         public int Score { get; set; }
 
-        public ICollection<Guid> AnswerIds { get; set; }
+        public ICollection<AnswerQuizSaveResource> AnswerQuizSaveResource { get; set; }
+
+        public QuestionSaveResource() {
+            AnswerQuizSaveResource = new Collection<AnswerQuizSaveResource>();  
+        }
     }
 }
