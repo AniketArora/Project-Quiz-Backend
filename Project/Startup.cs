@@ -38,6 +38,7 @@ namespace Project {
 
             //Registraties ---------------------------------------------------
             services.AddScoped<ISubjectRepo, SubjectRepo>();
+            services.AddScoped<IQuizRepo, QuizRepo>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 8;
