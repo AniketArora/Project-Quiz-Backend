@@ -20,13 +20,17 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Project.Models.Data;
 using Project.Models.Repo_s;
 
 namespace Project.API {
     public class Startup {
-        public Startup(IConfiguration configuration) {
+
+        private readonly IWebHostEnvironment env;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             Configuration = configuration;
+            this.env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -41,10 +45,28 @@ namespace Project.API {
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
 
+            services.AddMvc(options => {
+                options.EnableEndpointRouting = false;
+                options.RespectBrowserAcceptHeader = true;
+            }).AddNewtonsoftJson(options => {
+                //circulaire referenties verhinderen door navigatie props
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
             services.AddDbContext<ProjectDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
+            
+            services.AddCors();
 
+            services.AddCors(cfg => {
+                cfg.AddPolicy("default", builder => {
+                    builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("http://howest.be , http://mct.be, http://localhost");
+                    //iedereen van howest.be en mct.be krijgt access
+                });
+            });
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
               .AddRoles<IdentityRole>()
@@ -97,13 +119,40 @@ namespace Project.API {
                      }
                  });
              });
+
+            if (!env.IsDevelopment()) {
+                services.AddHttpsRedirection(options => {
+                    //default: 307 redirect
+                    // options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+                    options.HttpsPort = 443;
+                });
+
+                services.AddHsts(options => {
+                    options.MaxAge = TimeSpan.FromDays(40); //default 30
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+            } else {
+                //In productie 
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
+
+            app.UseCors(cfg =>
+            {
+                cfg.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()
+                .AllowCredentials();
+            });
+
+            app.UseCors("default");
+
 
             app.UseHttpsRedirection();
 

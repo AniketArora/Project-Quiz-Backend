@@ -29,6 +29,17 @@
             @Html.DisplayFor(model => model.ThemeColor)
         </dd>
     </dl>
+
+    @foreach (QuizQuestion qq in Model.QuizQuestions) {
+        @if (qq.QuizId == Model.Id) {
+            <partial name="_Details_Question.cshtml" model="qq.Question" />
+            @foreach (QuestionAnswer qa in qq.Question.QuestionAnswers) {
+                if (qa.QuestionId == qq.Question.Id) {
+                    <partial name="_Details_Answer.cshtml" model="qa.Answer" />
+                }
+            }
+        }
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

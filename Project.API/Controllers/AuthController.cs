@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Project.API.Resources;
 using Project.API.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace Project.API.Controllers
 {
