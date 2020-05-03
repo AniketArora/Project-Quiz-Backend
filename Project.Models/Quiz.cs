@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Project.Models {
@@ -10,8 +11,13 @@ namespace Project.Models {
         public String QuizName { get; set; }
 
         public enum DifficultyLevel {
+            [Display(Name = "Easy")]
             Easy = 0,
+
+            [Display(Name = "Medium")]
             Medium = 1,
+
+            [Display(Name = "Hard")]
             Hard = 2
         }
 

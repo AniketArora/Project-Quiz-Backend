@@ -14,6 +14,9 @@ namespace Project.API.Resources {
 
         public String ThemeColor { get; set; }
 
-        public IEnumerable<string> Subjects { get; set; } 
+        public IEnumerable<string> Subjects { get; set; }
+
+        public IEnumerable<QuestionResource> Questions { get; set; }
     }
 }
+    

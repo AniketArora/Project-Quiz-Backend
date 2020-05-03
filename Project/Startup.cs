@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Project.Models.Data;
+using Project.Models.Repo_s;
 
 namespace Project {
     public class Startup {
@@ -34,6 +35,13 @@ namespace Project {
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            //Registraties ---------------------------------------------------
+            services.AddScoped<ISubjectRepo, SubjectRepo>();
+            services.AddScoped<IQuizRepo, QuizRepo>();
+            services.AddScoped<IUserQuizRepo, UserQuizRepo>();
+            services.AddScoped<IQuizAnswerRepo, QuizAnswerRepo>();
+            services.AddScoped<IAnswerRepo, AnswerRepo>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 8;
@@ -72,7 +80,7 @@ namespace Project {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Play}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Project.Models.Quiz>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="card-columns">
+    @foreach (var item in Model) {
+            <div class="card" style="border:silver solid 1px;">
+            <div style="height: 200px; object-fit: cover; background-color: @item.ThemeColor" class="card-img-top">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@item.QuizName </h5>
+                <p class="card-text">@item.Difficulty</p>
+            </div>
+            <div style="padding-left:20px">
+                <a asp-action="Details" asp-route-id="@item.Id">Play</a>
+            </div>
+        </div>
+    }
+</div>

@@ -10,5 +10,7 @@ namespace Project.API.Resources {
         public String Questiontext { get; set; }
 
         public int Score { get; set; }
+
+        public IEnumerable<AnswerResource> Answers { get; set; }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model Project.Web.ViewModels.QuizQuestionAnswerVM
+
+@{
+}
+
+<h1>Play Quiz</h1>
+
+<div>
+
+    <h4>@Model.Quiz.QuizName</h4>
+    <p>@Model.Quiz.Difficulty</p>
+
+    <form asp-action="Details" asp-controller="Play">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            @foreach (QuizQuestion qq in Model.Quiz.QuizQuestions) {
+                <h5>@qq.Question.Questiontext</h5>
+                @foreach (var item in Model.ListAnswers) {
+                    <div class="form-check">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="@Model.Questions" value="@qq.Question" />
+                        <input type="hidden" asp-for="@Model.Quiz" value="@Model.Quiz" />
+
+                        <input class="form-check-input" type="checkbox" name="SelectedAnswersString[]"
+                               @if (qq.Question.QuestionAnswers != null) { foreach (var sAns in qq.Question.QuizAwnsers) { if (sAns.AnswerId.ToString() == item.Value) { <text> checked="checked" </text> } } }
+                               value="@item.Value" />
+                        @item.Text.Trim() <br />
+                        <span asp-validation-for="SelectedAnswersString" class="text-danger"></span>
+                    </div>
+                }
+            }
+            <input type="submit" class="btn btn-primary" value="Finish" />
+        </div>
+    </form>
+
+    <div>
+        <a asp-action="Index">Back to Home</a>
+    </div>
+</div>
