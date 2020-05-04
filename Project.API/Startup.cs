@@ -143,14 +143,6 @@ namespace Project.API {
                 app.UseHsts();
             }
 
-            app.UseCors(cfg =>
-            {
-                cfg.AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin()
-                .AllowCredentials();
-            });
-
             app.UseCors("default");
 
 

@@ -27,8 +27,8 @@ namespace Project.API.Mapper {
 
                     var addedQuestionAnswers = src.AnswerQuizSaveResource.Where(aq => !dest.QuestionAnswers.Any(qa => qa.AnswerId == aq.AnswerId)).Select(id => new QuestionAnswer { AnswerId = id.AnswerId, IsCorrect = id.IsCorrect });
 
-                    foreach (var q in addedQuestionAnswers.ToList()) {
-                        dest.QuestionAnswers.Add(q);
+                    foreach (var qa in addedQuestionAnswers.ToList()) {
+                        dest.QuestionAnswers.Add(qa);
                     }
                 });
         }

@@ -1,0 +1,17 @@
+﻿@model Project.Web.ViewModels.QuestionAnswerVM
+@*
+
+*@
+
+<input type="hidden" asp-for=@Model.TestVM.QuestionId value=@Model.question.Id />
+
+@foreach (var item in Model.ListAnswers) {
+    <div class="form-check">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input class="form-check-input" type="checkbox" name=Model.Test2VM.AnswerId
+               @if (Model.question.QuestionAnswers != null) { foreach (var sAns in Model.question.QuizAwnsers) { if (sAns.AnswerId.ToString() == item.Value) { <text> checked="checked" </text> } } }
+               value="@item.Value" />
+        @item.Text.Trim() <br />
+        <span asp-validation-for="SelectedAnswersString" class="text-danger"></span>
+    </div>
+}
