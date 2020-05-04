@@ -13,11 +13,13 @@ namespace Project.Web.ViewModels {
 
         public Collection<Question> Questions { get; set; }
 
-        public MultiSelectList ListAnswers { get; set; }
+        public Guid UserQuizID { get; set; }
+
+        public Collection<QuestionAnswerVM> QuestionAnswerVMs{ get; set; }
 
         public string[] SelectedAnswersString { get; set; }
 
-        public Guid UserQuizID { get; set; }
+        public TestVM TestVM { get; set; }
 
         public QuizQuestionAnswerVM() {
         }
@@ -25,19 +27,10 @@ namespace Project.Web.ViewModels {
         public QuizQuestionAnswerVM(IAnswerRepo AnswerRepo, Quiz quiz) {
             Quiz = quiz;
             this.Questions = new Collection<Question>();
+            this.QuestionAnswerVMs = new Collection<QuestionAnswerVM>();
             foreach (QuizQuestion qq in quiz.QuizQuestions) {
                 Questions.Add(qq.Question);
             }
-
-            var answers = new Collection<Answer>();
-
-            foreach (Question q in this.Questions) {
-                foreach (QuestionAnswer qa in q.QuestionAnswers) {
-                    answers.Add(qa.Answer);
-                }
-            };
-
-            this.ListAnswers = new MultiSelectList(answers, "Id", "Answertext");
         }
     }
 }

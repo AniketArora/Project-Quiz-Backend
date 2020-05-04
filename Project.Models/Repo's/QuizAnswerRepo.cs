@@ -10,5 +10,10 @@ namespace Project.Models.Repo_s {
         public QuizAnswerRepo(ProjectDbContext context) : base(context) {
             this._context = context;
         }
+
+        public void SaveBulk(IEnumerable<QuizAnswer> quizAnswers) {
+            _context.AddRange(quizAnswers);
+        }
+
     }
 }
