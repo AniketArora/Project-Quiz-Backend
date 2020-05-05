@@ -3,7 +3,7 @@
 
 *@
 
-<input type="hidden" asp-for=@Model.TestVM.QuestionId value=@Model.question.Id />
+@*<input type="hidden" asp-for=@Model.TestVM.QuestionId value=@Model.question.Id />
 
 @foreach (var item in Model.ListAnswers) {
     <div class="form-check">
@@ -14,4 +14,4 @@
         @item.Text.Trim() <br />
         <span asp-validation-for="SelectedAnswersString" class="text-danger"></span>
     </div>
-}
+}*@

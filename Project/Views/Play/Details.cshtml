@@ -2,7 +2,6 @@
 
 @{
     int i = 0;
-    Project.Web.ViewModels.QuestionAnswerVM questionanswerVM;
 }
 
 <h1>Play Quiz</h1>
@@ -12,26 +11,33 @@
     <p>@Model.Quiz.Difficulty</p>
 
     <form asp-action="Details" asp-controller="Play" method="post">
-        <input type="hidden" asp-for="@Model.TestVM.UserQuizId" value=@Model.UserQuizID />
+        <input type="hidden" name="UserQuizId" value=@Model.UserQuizID />
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
 
             @for (i = 0; i < Model.Quiz.QuizQuestions.Count(); i++) {
                 <h5>@Model.Questions[i].Questiontext</h5>
-                @questionanswerVM = new Project.Web.ViewModels.QuestionAnswerVM(Model.Questions[i])
-                <partial name="_PartialAnswers" model="questionanswerVM" />
-                
+                @*@questionanswerVM = new Project.Web.ViewModels.QuestionAnswerVM(Model.Questions[i])
+                <partial name="_PartialAnswers" model="questionanswerVM" />*@
+
+                <input type="hidden" name="Test2VMS[@i].QuestionId" value="@Model.Questions[i].Id" />
+
                 @foreach (var item in new Project.Web.ViewModels.QuestionAnswerVM(Model.Questions[i]).ListAnswers) {
                     <div class="form-check">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input class="form-check-input" type="checkbox" name=@Model.TestVM.Test2VMs[i].AnswerId
-                               @if (questionanswerVM.question.QuestionAnswers != null) { foreach (var sAns in questionanswerVM.question.QuizAwnsers) { if (sAns.AnswerId.ToString() == item.Value) { <text> checked="checked" </text> } } }
+                        <input class="form-check-input" type="checkbox" name=Test2VMS[@i].AnswerId
+                               @if (@Model.Questions[i].QuestionAnswers != null) {
+                                   foreach (var sAns in @Model.Questions[i].QuizAwnsers) {
+                                       if (sAns.AnswerId.ToString() == item.Value) { <text> checked="checked" </text> }
+                                   }
+                               }
                                value="@item.Value" />
                         @item.Text.Trim() <br />
                         <span asp-validation-for="SelectedAnswersString" class="text-danger"></span>
                     </div>
                 }
+            }
             <input type="submit" class="btn btn-primary" value="Finish" />
         </div>
     </form>
