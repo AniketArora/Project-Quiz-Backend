@@ -32,6 +32,7 @@ namespace Project.Web.Views.Play
 
         // GET: Indexpage of Quiz
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Index() {
             var allQuizzes = await quizRepo.GetAllAsync();
             return View(allQuizzes);
@@ -39,6 +40,7 @@ namespace Project.Web.Views.Play
 
         // GET: QuizGame
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Details(Guid id) {
             var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var UserQuiz = new UserQuiz {
@@ -55,16 +57,16 @@ namespace Project.Web.Views.Play
         }
 
         // POST: QuizGame
-        [Authorize(Roles = "Admin, User")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details(IFormCollection collection, TestVM quizQuestionAnswerVM) {
             try {
 
-                //  { UserQuizId: Guid , questions: [{ questionId: answerId} ,{ questionId: answerId}  ] ;
+                //  { UserQuizId: Guid , questions: [{ questionId: answerId} ,{ questionId: answerId}  ] ;  
 
                 var quizAnswers = new List<QuizAnswer>();
-                foreach (var item in quizQuestionAnswerVM.Questions) {
+                foreach (var item in quizQuestionAnswerVM.Test2VMs) {
                     quizAnswers.Add(new QuizAnswer() {
                         AnswerId = item.AnswerId,
                         QuestionId = item.QuestionId,
@@ -74,35 +76,17 @@ namespace Project.Web.Views.Play
                 quizAnswerRepo.SaveBulk(quizAnswers);
                 await quizAnswerRepo.SaveChangesAsync();
 
-                //Guid QuestionId = Guid.Empty;
-                //string[] questionIds;
-
-                //Guid UserQuizId = Guid.Empty;
-
-                //foreach (var key in collection) {
-                //    if (key.Key == "QuizId") {
-                //        UserQuizId = Guid.Parse(key.Value);
-                //    } 
-
-                //    if (key.Key == "QuestionId") {
-                //        String stringids = key.Value;
-                //        questionIds = stringids.Split(',');
-
-                //        foreach (String answer in quizQuestionAnswerVM.SelectedAnswersString) {
-                //            foreach (string questionid in questionIds) {
-                //                var quizanswer = new QuizAnswer { QuestionId = Guid.Parse(questionid), AnswerId = Guid.Parse(answer), UserQuizId = UserQuizId };
-                //                quizAnswerRepo.Create(quizanswer);
-                //                await quizAnswerRepo.SaveChangesAsync();
-                //            }
-                //        }
-                //    }
-                //}
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Finish), "Play" ,quizAnswers);
             } catch (Exception ex){
                 ex.InnerException.Message.ToString();
                 return View();
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Finish(List<QuizAnswer> quizAnswers) {
+            return View(quizAnswers);
         }
     }
 }

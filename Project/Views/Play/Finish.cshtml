@@ -1,0 +1,20 @@
+﻿@model List<Project.Models.QuizAnswer>
+
+@{
+    ViewData["Title"] = "Finish";
+}
+
+<h1>Finish</h1>
+
+<div>
+    <h4>QuizAnswer</h4>
+    <hr />
+    @for (int i = 0; i < Model.Count(); i++) {
+        <h3>@Model[i].QuestionId</h3>
+        <h3>@Model[i].AnswerId</h3>
+        <h3>@Model[i].UserQuizId</h3>
+    }
+</div>
+<div>
+    <a asp-action="Index">Back To Home</a>
+</div>
